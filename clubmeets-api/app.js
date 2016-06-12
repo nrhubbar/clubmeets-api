@@ -5,6 +5,7 @@
 
 var express = require('express');
 var mongoose = require('mongoose');
+var shortid = require('shortid');
 var routes = require('./routes');
 var app = module.exports = express.createServer();
 
