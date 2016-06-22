@@ -1,9 +1,9 @@
 var user = require('./user.schema');
+var shortid = require('shortid');
 
 module.exports = function(app){
-  app.mongoose.model('user',user)
   app.get('/user/:userId', function(req, res){
-    user.findOne({'userId':req.params.userId},'name picture schoolId clubs' ).then(function(err, user){
+    user.findOne({'_id':req.params.userId},{name:true, picture:true, schoolId:true, clubs:true} ).then(function(err, user){
       if(err){
         res.send(err);
       }
@@ -29,26 +29,22 @@ module.exports = function(app){
   });
 
   app.put('/user', function(req, res){
-    var newUser;
-    user.findOne({_id:req.body._id}).then(function(err, user){
-      if(err){
-        res.send(err);
-      }
-      newUser.name = req.body.name || user.name;
-      newUser.picture = req.body.picture || user.picture;
-      newUser.schoolId = req.body.schoolId || user.schoolId;
-      newUser.clubs = req.body.clubs || user.clubs;
-      newUser.password = req.body.password || user.password;
-    });
-    user.update({_id:req.body._id}, {$set:newUser}).then(function(err, user){
-      if(err){
-        res.send(err);
-      }
-      res.json(user);
+    var newUser = {};
+    user.findOne({'_id':req.body._id},function(err, userdb){
+
+      newUser.name = req.body.name || userdb.name;
+      newUser.picture = req.body.picture || userdb.picture;
+      newUser.schoolId = req.body.schoolId || userdb.schoolId;
+      newUser.clubs = req.body.clubs || userdb.clubs;
+      newUser.password = req.body.password || userdb.password;
+
+      user.update({'_id':req.body._id}, {$set : newUser}, function(err, dbRes){
+        res.json(newUser);
+      });
     });
   });
 
-  app.delete('/user', function(req, res)){
+  app.delete('/user', function(req, res){
     user.remove({_id:req.body._id}, function(err){
       if (err){
         res.send(err);
@@ -56,5 +52,9 @@ module.exports = function(app){
         res.status(200).send("deleted");
       }
     });
-  }
+  });
+
+  app.get('*', function(req, res){
+    res.send();
+  });
 }
