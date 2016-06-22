@@ -27,4 +27,24 @@ module.exports = function(app){
       });
     });
   });
+
+  app.put('/user', function(req, res){
+    var newUser;
+    user.findOne({_id:req.body._id}).then(function(err, user){
+      if(err){
+        res.send(err)
+      }
+      newUser.name = req.body.name || user.name;
+      newUser.picture = req.body.picture || user.picture;
+      newUser.schoolId = req.body.schoolId || user.schoolId;
+      newUser.clubs = req.body.clubs || user.clubs;
+      newUser.password = req.body.password || user.password;
+    });
+    user.update({_id:req.body._id}, {$set:newUser).then(function(err, user){
+      if(err){
+        res.send(err)
+      }
+      res.json(user);
+    });
+  });
 }
