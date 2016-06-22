@@ -5,7 +5,7 @@ module.exports = function(app){
   app.get('/user/:userId', function(req, res){
     user.findOne({'userId':req.params.userId},'name picture schoolId clubs' ).then(function(err, user){
       if(err){
-        res.send(err)
+        res.send(err);
       }
       res.json(user);
     });
@@ -32,7 +32,7 @@ module.exports = function(app){
     var newUser;
     user.findOne({_id:req.body._id}).then(function(err, user){
       if(err){
-        res.send(err)
+        res.send(err);
       }
       newUser.name = req.body.name || user.name;
       newUser.picture = req.body.picture || user.picture;
@@ -40,11 +40,21 @@ module.exports = function(app){
       newUser.clubs = req.body.clubs || user.clubs;
       newUser.password = req.body.password || user.password;
     });
-    user.update({_id:req.body._id}, {$set:newUser).then(function(err, user){
+    user.update({_id:req.body._id}, {$set:newUser}).then(function(err, user){
       if(err){
-        res.send(err)
+        res.send(err);
       }
       res.json(user);
     });
   });
+
+  app.delete('/user', function(req, res)){
+    user.remove({_id:req.body._id}, function(err){
+      if (err){
+        res.send(err);
+      }else{
+        res.status(200).send("deleted");
+      }
+    });
+  }
 }
