@@ -1,7 +1,7 @@
 var user = require('./user.schema');
 
 module.exports = function(app){
-
+  app.mongoose.model('user',user)
   app.get('/user/:userId', function(req, res){
     user.findOne({'userId':req.params.userId},'name picture schoolId clubs' ).then(function(err, user){
       if(err){
