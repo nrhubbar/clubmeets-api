@@ -14,7 +14,7 @@ module.exports = function(app){
   app.post('/club', function(req, res){
     var clubId = shortid.generate();
     club.create({
-      name : req.body.name
+      name : req.body.name,
       description : req.body.description,
       _id : clubId
     }).then(function(err, club){

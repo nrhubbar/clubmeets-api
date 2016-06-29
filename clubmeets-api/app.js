@@ -6,6 +6,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var routes = require('./routes');
+var morgan = require('morgan')
 var app = module.exports = express.createServer();
 
 // Configuration
@@ -41,6 +42,7 @@ app.configure('production', function(){
 
 app.get('/', routes.index);
 require('./User/user.js')(app);
+require('./Club/club.js')(app);
 
 
 app.listen(port, function(){
