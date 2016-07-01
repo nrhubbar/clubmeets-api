@@ -44,6 +44,7 @@ app.get('/', routes.index);
 require('./User/user.js')(app);
 require('./Club/club.js')(app);
 
+require('./School/school.js')(app)
 
 app.listen(port, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
