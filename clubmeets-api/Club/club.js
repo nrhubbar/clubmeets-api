@@ -4,10 +4,11 @@ var shortid = require('shortid');
 module.exports = function(app){
   app.get('/club/:clubId', function(req, res){
     club.findOne({'_id':req.params.clubId},{name:true, description:true, schoolId:true} ).then(function(err, club){
-      if(err){
+      if(err) {
         res.send(err);
       }
-      res.json(club);
+      res.json(user)
+      
     });
   });
 
@@ -36,10 +37,8 @@ module.exports = function(app){
         res.status(500).send(err);
       }
       club.name = req.body.name || club.name;
-      club.picture = req.body.picture || club.picture;
       club.schoolId = req.body.schoolId || club.schoolId;
-      club.clubs = req.body.clubs || club.clubs;
-      club.password = req.body.password || club.password;
+      club.description = req.body.description || club.description;
 
       club.save().then(function(){
         res.json(club);
@@ -61,9 +60,5 @@ module.exports = function(app){
         res.status(200).send("deleted");
       }
     });
-  });
-
-  app.get('*', function(req, res){
-    res.send();
   });
 }
