@@ -45,6 +45,11 @@ jspm_packages
 .idea/dictionaries
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
+.idea/.name
+.idea/clubmeets-api.iml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/modules.xml
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids
