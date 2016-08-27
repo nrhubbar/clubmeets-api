@@ -27,6 +27,7 @@ app.configure(function(){
 var port;
 
 app.configure('development', function(){
+  console.log("Attempting to connect to db")
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   waitForMongoose('mongodb://db', function (err) {
     if (err) {
