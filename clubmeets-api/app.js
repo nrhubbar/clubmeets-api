@@ -28,7 +28,7 @@ var port;
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-  mongoose.connect('mongodb://localhost/test');
+  mongoose.connect('db:27017');
   port = 3000;
 });
 
