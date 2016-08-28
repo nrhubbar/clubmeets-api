@@ -6,7 +6,8 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var routes = require('./routes');
-var waitForMongoose = require('wait-for-mongoose');
+var http = require('http');
+
 var app = module.exports = express.createServer();
 
 // Configuration
@@ -27,14 +28,18 @@ app.configure(function(){
 var port;
 
 app.configure('development', function(){
-  console.log("Attempting to connect to db")
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-  waitForMongoose('mongodb://db', function (err) {
-    if (err) {
-      console.error('Timeout connecting to MongoDB server!');
-      process.exit(1);
-    }
-  });
+  var dbUrl = 'http://db:27017';
+  var canConnect = false;
+  //Wait until we can connect to db
+  while (!canConnect) {
+    http.get(dbUrl, function(res){
+      canConnect = res.statusCode == 200;
+    });
+    setTimeout(2000);
+  }
+
+  mongoose.connect(dbUrl);
   port = 3000;
 });
 
