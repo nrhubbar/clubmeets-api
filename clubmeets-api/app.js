@@ -6,8 +6,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var routes = require('./routes');
-var http = require('http');
-
+const mongoose = require('wait-for-mongoose');
 var app = module.exports = express.createServer();
 
 // Configuration
@@ -29,19 +28,7 @@ var port;
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-  var dbUrl = 'http://db:27017';
-  var canConnect = false;
-  //Wait until we can connect to db
-
-  while (!canConnect) {
-    console.log("Polling DB");
-    http.get(dbUrl, function(res){
-      canConnect = res.statusCode == 200;
-    });
-    setTimeout(2000);
-  }
-  console.log("Connecting to DB");
-  mongoose.connect(dbUrl);
+  mongoose.connect('http://db:27017');
   port = 3000;
 });
 
