@@ -32,13 +32,15 @@ app.configure('development', function(){
   var dbUrl = 'http://db:27017';
   var canConnect = false;
   //Wait until we can connect to db
+
   while (!canConnect) {
     http.get(dbUrl, function(res){
+      console.log("Polling DB");
       canConnect = res.statusCode == 200;
     });
     setTimeout(2000);
   }
-
+  console.log("Connecting to DB");
   mongoose.connect(dbUrl);
   port = 3000;
 });
