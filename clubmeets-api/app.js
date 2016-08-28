@@ -34,8 +34,8 @@ app.configure('development', function(){
   //Wait until we can connect to db
 
   while (!canConnect) {
+    console.log("Polling DB");
     http.get(dbUrl, function(res){
-      console.log("Polling DB");
       canConnect = res.statusCode == 200;
     });
     setTimeout(2000);
