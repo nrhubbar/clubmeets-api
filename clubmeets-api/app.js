@@ -6,7 +6,6 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var routes = require('./routes');
-const mongoose = require('wait-for-mongoose');
 var app = module.exports = express.createServer();
 
 // Configuration
@@ -34,6 +33,7 @@ app.configure('development', function(){
 
 app.configure('production', function(){
   app.use(express.errorHandler());
+  setTimeout(2 * 60 * 1000);
   mongoose.connect('mongodb://107.170.40.178/');
   port = 80;
 });
